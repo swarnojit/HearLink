@@ -1,2 +1,60 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+
+# Dependencies
+*.egg-info/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Logs and database files
+logs/
+*.log
+*.sqlite3
+db.sqlite3
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Environment variables
 .env
-meta
+*.env
+
+# Cache files
+*.cache
+*.pkl
+*.npy
+*.npz
+
+# VS Code settings
+.vscode/
+
+# macOS files
+.DS_Store
+
+# Python test coverage
+.coverage
+htmlcov/
+
+# Ignore model weights and large data files
+models/
+*.h5
+*.pt
+*.onnx
+*.tflite
+
+# Ignore Ollama-generated cache files
+ollama_cache/
+
+# Ignore generated documentation
+docs/_build/
+
+# Ignore temporary files
+*.tmp
+*.swp
+*.swo
