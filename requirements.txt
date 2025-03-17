@@ -1,0 +1,15 @@
+opencv-python
+deepface
+tf_keras
+torchaudio
+transformers
+sounddevice
+streamlit
+openai-whisper
+speechrecognition
+torch
+faster_whisper 
+deep_translator
+moviepy
+ollama
+langdetect

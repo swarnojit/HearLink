@@ -1,0 +1,4 @@
+🔹 **Emotion Analysis Report** 🔹
+📌 Top Emotion: neutral
+📌 Second Most Common Emotion: happy
+⚠ Emotional Distress Percentage: 13.39%
