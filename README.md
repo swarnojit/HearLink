@@ -41,44 +41,5 @@ HearLink is an AI-powered support app that enables deaf students to study in any
 
 ---
 
-## 📌 Installation & Usage
-### Prerequisites
-- Python 3.8+
-- Required libraries (install using `pip`)
-
-```bash
-pip install -r requirements.txt
-```
-
-### Running the Project
-```bash
-python main.py
-```
-
----
-
-## 🤝 Contributing
-We welcome contributions! Please follow these steps:
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature-name`)
-3. Commit your changes (`git commit -m 'Add feature'`)
-4. Push to the branch (`git push origin feature-name`)
-5. Create a Pull Request
-
----
-
-## 📜 License
-MIT License
-
----
-
 ## 📧 Contact
-For questions or collaborations, reach out at: [Your Contact Email]
-
-
-
-Speech-to-Text: Whisper fine-tuning
-
-Emotion Detection: Custom-trained Facial Emotion Recognition (FER) model
-
-Multilingual Content Generation: Whisper fine-tuning, Ollama, and AI-based NLP processing
+For questions or collaborations, reach out at: maitras600@gmail.com
