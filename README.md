@@ -19,7 +19,7 @@ HearLink is an AI-powered support app that enables deaf students to study in any
 
 ### 📚 AI-Generated Study Materials
 - Teachers can upload lectures, and AI will generate:
-  - 🎥 Video Summaries
+  - 🎥 Video Transcription and Summaries
   - 🃏 Flashcards
 - Available in multiple languages to help students retain information better.
 
