@@ -15,7 +15,7 @@ load_dotenv()
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 # Determine transcript file
-translated_file = "translated_transcript.txt" if os.path.exists("translated_transcript.txt") else "translated.txt"
+translated_file = "translated_transcript.txt" if  os.path.exists("translated_transcript.txt") else "translated.txt"
 
 app = Flask(__name__)
 
