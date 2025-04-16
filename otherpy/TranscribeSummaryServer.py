@@ -92,9 +92,9 @@ def generate_flashcards(summary_text):
 
 def get_latest_transcript():
     """Determine which transcript file to use."""
-    if os.path.exists("translated_transcript.txt") and os.path.getsize("translated_transcript.txt") > 0:
+    if os.path.exists("../translated_transcript.txt") and os.path.getsize("../translated_transcript.txt") > 0:
         return "translated_transcript.txt"
-    elif os.path.exists("transcript.txt") and os.path.getsize("transcript.txt") > 0:
+    elif os.path.exists("../transcript.txt") and os.path.getsize("../transcript.txt") > 0:
         return "transcript.txt"
     else:
         raise FileNotFoundError("No valid transcript found. Run transcription first.")
@@ -178,7 +178,7 @@ def generate_summary():
         summary_text = summarize_text(text, detected_lang)
 
         # Save Summary
-        with open("summary.txt", "w", encoding="utf-8") as file:
+        with open("../summary.txt", "w", encoding="utf-8") as file:
             file.write(summary_text)
 
         return jsonify({
@@ -212,7 +212,7 @@ def generate_flashcards_route():
         flashcards = generate_flashcards(summary_text)
 
         # Save Flashcards
-        with open("flashcards.txt", "w", encoding="utf-8") as file:
+        with open("../flashcards.txt", "w", encoding="utf-8") as file:
             file.write(flashcards)
 
         return jsonify({
