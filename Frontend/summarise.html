@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summarize & Flashcards - Hearlink</title>
+    <link rel="stylesheet" href="summarise.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">Hearlink</a>
+            <ul class="nav-links">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="speech-assist.html">Speech Assist</a></li>
+                <li><a href="emotion-analysis.html">Emotion Analysis</a></li>
+                <li><a href="summarize.html">Summarize</a></li>
+                <li><a href="index.html#gallery">Gallery</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Summarize Section -->
+    <section class="summarize-section" id="summarize">
+        <div class="space-background">
+            <video autoplay muted loop playsinline class="stars-video">
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-background-1610-large.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="container">
+            <h2 class="section-title">Summarize & Translate Text</h2>
+            <p class="section-subtitle">Summarize your text and translate it into your preferred language.</p>
+
+            <div class="summarize-layout">
+                <div class="summarize-card">
+                    <div class="card-header">
+                        <h3>Input Text</h3>
+                    </div>
+                    <textarea id="input-text" placeholder="Enter your text here..." rows="6"></textarea>
+                    <div class="summarize-controls">
+                        <select id="language-select">
+                            <option value="en">English</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="hi">Hindi</option>
+                            <option value="zh-cn">Chinese (Simplified)</option>
+                        </select>
+                        <button id="summarize-btn">Summarize</button>
+                    </div>
+                    <div class="summarize-results">
+                        <div class="result-item">
+                            <h4>Summary:</h4>
+                            <p id="summary-text">Your summary will appear here...</p>
+                        </div>
+                        <div class="result-item">
+                            <h4>Translated Summary:</h4>
+                            <p id="translated-text">Your translated summary will appear here...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Flashcards Section -->
+    <section class="flashcards-section" id="flashcards">
+        <div class="space-background">
+            <video autoplay muted loop playsinline class="stars-video">
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-background-1610-large.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="container">
+            <h2 class="section-title">Generate Flashcards</h2>
+            <p class="section-subtitle">Create flashcards from your text to aid learning.</p>
+
+            <div class="flashcards-layout">
+                <div class="flashcards-card">
+                    <div class="card-header">
+                        <h3>Flashcards</h3>
+                    </div>
+                    <button id="generate-flashcards-btn">Generate Flashcards</button>
+                    <div id="flashcards-container" class="flashcards-container"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="summarise.js"></script>
+</body>
+</html>

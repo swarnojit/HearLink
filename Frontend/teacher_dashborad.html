@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HearLink - Teacher Dashboard</title>
+    <link rel="stylesheet" href="teacher_dashboard.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <div class="logo-icon"><i class="fas fa-heartbeat"></i></div>
+                <div class="logo-text">HearLink</div>
+            </div>
+            
+            <div class="menu-item active" data-target="dashboard">
+                <div class="menu-icon"><i class="fas fa-home"></i></div>
+                <div>Dashboard</div>
+            </div>
+            
+            <div class="menu-item" data-target="emotion-analysis">
+                <div class="menu-icon"><i class="fas fa-brain"></i></div>
+                <div>Emotion Analysis</div>
+            </div>
+            
+            <div class="menu-item" data-target="virtual-classroom">
+                <div class="menu-icon"><i class="fas fa-users"></i></div>
+                <div>Virtual Classroom</div>
+            </div>
+            
+            <div class="menu-item" data-target="assignments">
+                <div class="menu-icon"><i class="fas fa-tasks"></i></div>
+                <div>Assignments</div>
+            </div>
+            
+            <div class="menu-item" data-target="materials">
+                <div class="menu-icon"><i class="fas fa-file-alt"></i></div>
+                <div>Course Materials</div>
+            </div>
+            
+            <div class="menu-item" data-target="gradebook">
+                <div class="menu-icon"><i class="fas fa-chart-bar"></i></div>
+                <div>Gradebook</div>
+            </div>
+            
+            <div class="menu-item" data-target="announcements">
+                <div class="menu-icon"><i class="fas fa-bullhorn"></i></div>
+                <div>Announcements</div>
+            </div>
+            
+            
+            
+            <!-- Added Start Emotion Analysis Button -->
+            <div class="start-analysis-btn" id="start-emotion-analysis">
+                <i class="fas fa-play-circle"></i>
+                Start Emotion Analysis
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="page-title">Teacher Dashboard</div>
+                <div class="profile" id="profile-toggle">
+                    <div class="profile-pic">JD</div>
+                    <div class="profile-name">John Doe</div>
+                    <i class="fas fa-chevron-down" style="margin-left: 8px;"></i>
+                    
+                    <!-- Added Profile Dropdown -->
+                    <div class="profile-dropdown" id="profile-dropdown">
+                        <div class="dropdown-item">
+                            <i class="fas fa-user"></i>
+                            <div>My Profile</div>
+                        </div>
+                        <div class="dropdown-item">
+                            <i class="fas fa-cog"></i>
+                            <div>Settings</div>
+                        </div>
+                        <div class="dropdown-item">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <div>Logout</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dashboard Content -->
+            <div id="dashboard" class="dashboard-content active">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-user"></i> Teacher Information</h3>
+                        <div class="teacher-info">
+                            <div class="teacher-info-label">Name:</div>
+                            <div>John Doe</div>
+                            
+                            <div class="teacher-info-label">ID:</div>
+                            <div>T-2024-001</div>
+                            
+                            <div class="teacher-info-label">Subject:</div>
+                            <div>Mathematics</div>
+                            
+                            <div class="teacher-info-label">Grade:</div>
+                            <div>10th Grade</div>
+                            
+                            <div class="teacher-info-label">Email:</div>
+                            <div>johndoe@hearlink.edu</div>
+                            
+                            <div class="teacher-info-label">Phone:</div>
+                            <div>(555) 123-4567</div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-brain"></i> Student Emotion Analysis</h3>
+                        <div class="emotion-analysis">
+                            <p>Monitor your classroom's emotional wellbeing with our AI-powered emotion analysis tools.</p>
+                            
+                            <div class="emotion-stats">
+                                <div class="emotion-stat">
+                                    <div class="emotion-value">78%</div>
+                                    <div class="emotion-label">Engagement</div>
+                                </div>
+                                
+                                <div class="emotion-stat">
+                                    <div class="emotion-value">10%</div>
+                                    <div class="emotion-label">Distress Level</div>
+                                </div>
+                                
+                                <div class="emotion-stat">
+                                    <div class="emotion-value">85%</div>
+                                    <div class="emotion-label">Satisfaction</div>
+                                </div>
+                            </div>
+                            
+                            <div class="btn" id="emotion-analysis-btn">View Full Analysis</div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-users"></i> Virtual Classroom</h3>
+                        <p>Access your virtual classroom to monitor individual student emotions and receive tailored feedback.</p>
+                        <div class="btn" id="virtual-classroom-btn">Enter Classroom</div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-calendar"></i> Upcoming Sessions</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin-bottom: 10px;">
+                                <div style="font-weight: bold;">Mathematics - Class 10A</div>
+                                <div style="font-size: 14px;">Today, 10:00 AM - 11:30 AM</div>
+                            </li>
+                            <li style="margin-bottom: 10px;">
+                                <div style="font-weight: bold;">Mathematics - Class 10B</div>
+                                <div style="font-size: 14px;">Today, 01:00 PM - 02:30 PM</div>
+                            </li>
+                            <li>
+                                <div style="font-weight: bold;">Faculty Meeting</div>
+                                <div style="font-size: 14px;">Tomorrow, 09:00 AM - 10:00 AM</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Emotion Analysis Content -->
+            <div id="emotion-analysis" class="dashboard-content">
+                <h2 style="margin-bottom: 20px;">Classroom Emotion Analysis</h2>
+                
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-chart-line"></i> Emotional Wellbeing Overview</h3>
+                    <p>Your classroom currently shows an emotional distress level of 10%, which is within an acceptable range but could be improved.</p>
+                    
+                    <div class="emotion-chart">
+                        <div class="chart-bar" style="left: 80px; height: 85%; width: 50px;" title="Engagement: 85%"></div>
+                        <div class="chart-bar" style="left: 160px; height: 78%; width: 50px;" title="Focus: 78%"></div>
+                        <div class="chart-bar" style="left: 240px; height: 90%; width: 50px;" title="Satisfaction: 90%"></div>
+                        <div class="chart-bar" style="left: 320px; height: 10%; width: 50px;" title="Distress: 10%"></div>
+                        <div class="chart-bar" style="left: 400px; height: 15%; width: 50px;" title="Confusion: 15%"></div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card feedback-section">
+                    <h3>Structured Feedback</h3>
+                    
+                    <div class="feedback-item">
+                        <div class="feedback-title">Minor Adjustments for Improved Student Engagement (3-5% improvement)</div>
+                        <ul class="feedback-list">
+                            <li>Increase opportunities for student participation through open-ended questions, think-pair-share activities, or group discussions.</li>
+                            <li>Vary instructional strategies including visual aids, hands-on activities, or technology integration.</li>
+                            <li>Use positive reinforcement to recognize student achievements, efforts, and progress.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feedback-item">
+                        <div class="feedback-title">Potential Reasons for Discomfort and How to Address Them (2-4% improvement)</div>
+                        <ul class="feedback-list">
+                            <li>Overwhelming pace or workload: Adjust assignments and provide regular check-ins.</li>
+                            <li>Lack of student autonomy: Offer choices and involve students in decision-making processes.</li>
+                            <li>Inadequate emotional support: Check-in with students and validate their feelings.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feedback-item">
+                        <div class="feedback-title">Expected Improvement</div>
+                        <p>By implementing these adjustments, expect the emotional distress level to decrease by <span class="improvement">5-7%</span>.</p>
+                    </div>
+                </div>
+                
+                <div class="btn" id="virtual-classroom-from-emotion">View Individual Student Analysis</div>
+            </div>
+            
+            <!-- Virtual Classroom Content -->
+            <div id="virtual-classroom" class="dashboard-content">
+                <h2 style="margin-bottom: 20px;">Virtual Classroom</h2>
+                
+                <div class="classroom-container">
+                    <div class="student-list">
+                        <div class="student-item active" data-student="emma">
+                            <div class="student-icon">ES</div>
+                            <div class="student-info-section">
+                                <div class="student-name">Emma Smith</div>
+                            </div>
+                            <div class="student-status status-happy"></div>
+                            <div class="check-emotion-btn" data-student="emma">
+                                <i class="fas fa-brain"></i>Check
+                            </div>
+                        </div>
+                        
+                        <div class="student-item" data-student="michael">
+                            <div class="student-icon">MJ</div>
+                            <div class="student-info-section">
+                                <div class="student-name">Michael Johnson</div>
+                            </div>
+                            <div class="student-status status-neutral"></div>
+                            <div class="check-emotion-btn" data-student="michael">
+                                <i class="fas fa-brain"></i>Check
+                            </div>
+                        </div>
+                        
+                        <div class="student-item" data-student="sophia">
+                            <div class="student-icon">SL</div>
+                            <div class="student-info-section">
+                                <div class="student-name">Sophia Lee</div>
+                            </div>
+                            <div class="student-status status-happy"></div>
+                            <div class="check-emotion-btn" data-student="sophia">
+                                <i class="fas fa-brain"></i>Check
+                            </div>
+                        </div>
+                        
+                        <div class="student-item" data-student="james">
+                            <div class="student-icon">JW</div>
+                            <div class="student-info-section">
+                                <div class="student-name">James Wilson</div>
+                            </div>
+                            <div class="student-status status-sad"></div>
+                            <div class="check-emotion-btn" data-student="james">
+                                <i class="fas fa-brain"></i>Check
+                            </div>
+                        </div>
+                        
+                        <div class="student-item" data-student="olivia">
+                            <div class="student-icon">OB</div>
+                            <div class="student-info-section">
+                                <div class="student-name">Olivia Brown</div>
+                            </div>
+                            <div class="student-status status-happy"></div>
+                            <div class="check-emotion-btn" data-student="olivia">
+                                <i class="fas fa-brain"></i>Check
+                            </div>
+                        </div>
+                        
+                        <div class="student-item" data-student="william">
+                            <div class="student-icon">WD</div>
+                            <div class="student-info-section">
+                                <div class="student-name">William Davis</div>
+                            </div>
+                            <div class="student-status status-neutral"></div>
+                            <div class="check-emotion-btn" data-student="william">
+                                <i class="fas fa-brain"></i>Check
+                            </div>
+                        </div>
+                        
+                        <div class="student-item" data-student="ava">
+                            <div class="student-icon">AM</div>
+                            <div class="student-info-section">
+                                <div class="student-name">Ava Martinez</div>
+                            </div>
+                            <div class="student-status status-happy"></div>
+                            <div class="check-emotion-btn" data-student="ava">
+                                <i class="fas fa-brain"></i>Check
+                            </div>
+                        </div>
+                        
+                        <div class="student-item" data-student="ethan">
+                            <div class="student-icon">ET</div>
+                            <div class="student-info-section">
+                                <div class="student-name">Ethan Taylor</div>
+                            </div>
+                            <div class="student-status status-neutral"></div>
+                            <div class="check-emotion-btn" data-student="ethan">
+                                <i class="fas fa-brain"></i>Check
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="student-detail" id="student-detail-content">
+                        <div class="detail-header">
+                            <div class="student-icon">ES</div>
+                            <div>
+                                <h3>Emma Smith</h3>
+                                <div>Student ID: S-2024-001 | Grade: 10A</div>
+                            </div>
+                        </div>
+                        
+                        <div class="emotion-analysis-placeholder" id="emotion-analysis-placeholder">
+                            <p style="text-align: center; padding: 40px;">Select "Check" next to a student to view their detailed emotion analysis.</p>
+                        </div>
+                        
+                        <div class="emotion-analysis" id="emotion-analysis-content" style="display: none;">
+                            <h3>Emotion Analysis</h3>
+                            <p>Emma shows high engagement and satisfaction in class. Her emotional patterns indicate a positive learning experience.</p>
+                            
+                            <div class="emotion-chart">
+                                <div class="chart-bar" style="left: 60px; height: 90%; width: 40px;" title="Engagement: 90%"></div>
+                                <div class="chart-bar" style="left: 120px; height: 85%; width: 40px;" title="Focus: 85%"></div>
+                                <div class="chart-bar" style="left: 180px; height: 95%; width: 40px;" title="Satisfaction: 95%"></div>
+                                <div class="chart-bar" style="left: 240px; height: 5%; width: 40px;" title="Distress: 5%"></div>
+                                <div class="chart-bar" style="left: 300px; height: 10%; width: 40px;" title="Confusion: 10%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="feedback-section" id="feedback-section" style="display: none;">
+                            <h3>Personalized Feedback</h3>
+                            
+                            <div class="feedback-item">
+                                <div class="feedback-title">Strengths</div>
+                                <ul class="feedback-list">
+                                    <li>High level of engagement in class discussions</li>
+                                    <li>Shows excellent problem-solving skills</li>
+                                    <li>Collaborates well with peers during group activities</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="feedback-item">
+                                <div class="feedback-title">Areas for Growth</div>
+                                <ul class="feedback-list">
+                                    <li>Occasionally hesitates to ask questions when confused</li>
+                                    <li>Could benefit from more challenging problems</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="feedback-item">
+                                <div class="feedback-title">Recommended Actions</div>
+                                <ul class="feedback-list">
+                                    <li>Provide advanced materials for enrichment</li>
+                                    <li>Encourage participation in mathematics competitions</li>
+                                    <li>Create opportunities for peer tutoring where Emma can help others</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="assignments" class="dashboard-content">
+                <h2 style="margin-bottom: 20px;">Assignments</h2>
+                
+                <div class="action-bar">
+                    <button class="create-btn"><i class="fas fa-plus"></i> Create Assignment</button>
+                    <div class="filter-dropdown">
+                        <select>
+                            <option>All Classes</option>
+                            <option>Class 10A</option>
+                            <option>Class 10B</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="assignments-list">
+                    <div class="assignment-item">
+                        <div class="assignment-status completed"></div>
+                        <div class="assignment-info">
+                            <h3>Quadratic Equations Problem Set</h3>
+                            <div class="assignment-details">
+                                <span><i class="fas fa-users"></i> Class 10A</span>
+                                <span><i class="fas fa-calendar"></i> Due: April 17, 2025</span>
+                                <span><i class="fas fa-check-circle"></i> 18/22 Submitted</span>
+                            </div>
+                        </div>
+                        <div class="assignment-actions">
+                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                            <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="assignment-item">
+                        <div class="assignment-status active"></div>
+                        <div class="assignment-info">
+                            <h3>Linear Functions Group Project</h3>
+                            <div class="assignment-details">
+                                <span><i class="fas fa-users"></i> Class 10B</span>
+                                <span><i class="fas fa-calendar"></i> Due: April 22, 2025</span>
+                                <span><i class="fas fa-check-circle"></i> 5/24 Submitted</span>
+                            </div>
+                        </div>
+                        <div class="assignment-actions">
+                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                            <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="materials" class="dashboard-content">
+                <h2 style="margin-bottom: 20px;">Course Materials</h2>
+                
+                <div class="action-bar">
+                    <button class="create-btn"><i class="fas fa-plus"></i> Upload Material</button>
+                    <div class="filter-dropdown">
+                        <select>
+                            <option>All Units</option>
+                            <option>Unit 1: Algebra Review</option>
+                            <option>Unit 2: Linear Functions</option>
+                            <option>Unit 3: Quadratic Functions</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="materials-grid">
+                    <div class="material-card">
+                        <div class="material-icon"><i class="fas fa-file-pdf"></i></div>
+                        <div class="material-info">
+                            <h3>Algebra Fundamentals</h3>
+                            <div>Unit 1 • PDF • 2.4 MB</div>
+                        </div>
+                        <div class="material-actions">
+                            <button class="btn-icon"><i class="fas fa-download"></i></button>
+                            <button class="btn-icon"><i class="fas fa-share-alt"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="material-card">
+                        <div class="material-icon"><i class="fas fa-file-powerpoint"></i></div>
+                        <div class="material-info">
+                            <h3>Linear Functions Slides</h3>
+                            <div>Unit 2 • Presentation • 5.1 MB</div>
+                        </div>
+                        <div class="material-actions">
+                            <button class="btn-icon"><i class="fas fa-download"></i></button>
+                            <button class="btn-icon"><i class="fas fa-share-alt"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="material-card">
+                        <div class="material-icon"><i class="fas fa-video"></i></div>
+                        <div class="material-info">
+                            <h3>Quadratic Equations Tutorial</h3>
+                            <div>Unit 3 • Video • 45:33</div>
+                        </div>
+                        <div class="material-actions">
+                            <button class="btn-icon"><i class="fas fa-play"></i></button>
+                            <button class="btn-icon"><i class="fas fa-share-alt"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="gradebook" class="dashboard-content">
+                <h2 style="margin-bottom: 20px;">Gradebook</h2>
+                
+                <div class="action-bar">
+                    <div class="filter-dropdown">
+                        <select>
+                            <option>Class 10A</option>
+                            <option>Class 10B</option>
+                        </select>
+                    </div>
+                    <button class="export-btn"><i class="fas fa-download"></i> Export Grades</button>
+                </div>
+                
+                <div class="gradebook-table-wrapper">
+                    <table class="gradebook-table">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Quiz 1</th>
+                                <th>Assignment 1</th>
+                                <th>Midterm</th>
+                                <th>Assignment 2</th>
+                                <th>Quiz 2</th>
+                                <th>Final Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Emma Smith</td>
+                                <td>95%</td>
+                                <td>92%</td>
+                                <td>88%</td>
+                                <td>94%</td>
+                                <td>90%</td>
+                                <td class="grade-a">91.8%</td>
+                            </tr>
+                            <tr>
+                                <td>James Wilson</td>
+                                <td>65%</td>
+                                <td>70%</td>
+                                <td>62%</td>
+                                <td>Pending</td>
+                                <td>68%</td>
+                                <td class="grade-c">66.3%</td>
+                            </tr>
+                            <!-- Add more student rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="announcements" class="dashboard-content">
+                <h2 style="margin-bottom: 20px;">Announcements</h2>
+                
+                <div class="action-bar">
+                    <button class="create-btn"><i class="fas fa-plus"></i> New Announcement</button>
+                    <div class="filter-dropdown">
+                        <select>
+                            <option>All Classes</option>
+                            <option>Class 10A</option>
+                            <option>Class 10B</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="announcements-list">
+                    <div class="announcement-item">
+                        <div class="announcement-header">
+                            <div class="announcement-title">Review Session for Midterm Exam</div>
+                            <div class="announcement-date">Posted: April 12, 2025</div>
+                        </div>
+                        <div class="announcement-content">
+                            <p>There will be a review session for the upcoming midterm exam this Friday at 3:00 PM in Room 201. Please bring your textbooks and any questions you may have about the materials covered so far.</p>
+                        </div>
+                        <div class="announcement-footer">
+                            <span><i class="fas fa-users"></i> Posted to: All Classes</span>
+                            <div class="announcement-actions">
+                                <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="announcement-item">
+                        <div class="announcement-header">
+                            <div class="announcement-title">Math Competition Registration</div>
+                            <div class="announcement-date">Posted: April 10, 2025</div>
+                        </div>
+                        <div class="announcement-content">
+                            <p>Registration for the Regional Mathematics Competition is now open. Interested students should submit their applications by April 20. This is a great opportunity for those looking to challenge themselves!</p>
+                        </div>
+                        <div class="announcement-footer">
+                            <span><i class="fas fa-users"></i> Posted to: Class 10A</span>
+                            <div class="announcement-actions">
+                                <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+
+    <script src="teacher_dashboard.js"></script>
+    
+    
+</body>
+</html>

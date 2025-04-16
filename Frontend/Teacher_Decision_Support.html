@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-Powered Teacher Support Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background: #0a192f;
+      color: #e6f1ff;
+      min-height: 100vh;
+      padding-bottom: 40px;
+    }
+    
+    .container {
+      width: 95%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      text-align: center;
+      padding: 20px 0;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #1d3557;
+    }
+    
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      color: #64ffda;
+    }
+    
+    h2 {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      color: #a8b2d1;
+    }
+    
+    .card {
+      background: #112240;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      border: 1px solid #233554;
+    }
+    
+    .card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      color: #ccd6f6;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #233554;
+    }
+    
+    .upload-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .upload-box {
+      width: 100%;
+      height: 200px;
+      border: 2px dashed #233554;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .upload-box:hover {
+      border-color: #5f518c;
+      background: rgba(95, 81, 140, 0.1);
+    }
+    
+    .upload-icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      color: #64ffda;
+    }
+    
+    .btn {
+      background: linear-gradient(90deg, #5e4fa2, #ac3b61);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .btn:hover {
+      background: linear-gradient(90deg, #6a5cba, #c04f76);
+    }
+    
+    .feedback-container {
+      display: none;
+      margin-top: 30px;
+    }
+    
+    .chart-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    
+    .pie-chart {
+      max-width: 400px;
+      width: 100%;
+      height: 400px;
+    }
+    
+    .distress-meter {
+      width: 100%;
+      background: #233554;
+      height: 24px;
+      border-radius: 8px;
+      margin: 15px 0 20px 0;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .distress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 8px;
+      transition: width 1s ease-in-out;
+    }
+    
+    .meter-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-weight: bold;
+      text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+    }
+    
+    .low-distress {
+      background: #4caf50;
+    }
+    
+    .medium-distress {
+      background: #ff9800;
+    }
+    
+    .high-distress {
+      background: #f44336;
+    }
+    
+    .feedback-section {
+      padding: 20px;
+      background: #112240;
+      border-radius: 8px;
+    }
+    
+    .feedback-section h4 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: #ccd6f6;
+    }
+    
+    .feedback-section p {
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+    
+    .feedback-section ul {
+      margin-left: 25px;
+      margin-bottom: 15px;
+    }
+    
+    .feedback-section li {
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    
+    .student-progress {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 25px;
+    }
+    
+    .student-card {
+      flex: 1 1 250px;
+      background: #112240;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      border: 1px solid #233554;
+    }
+    
+    .student-card h4 {
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+      color: #ccd6f6;
+    }
+    
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #233554;
+      border-radius: 4px;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #5e4fa2, #ac3b61);
+      border-radius: 4px;
+    }
+    
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #233554;
+      margin-bottom: 20px;
+    }
+    
+    .tab {
+      padding: 12px 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-bottom: 3px solid transparent;
+    }
+    
+    .tab:hover {
+      background: rgba(95, 81, 140, 0.1);
+    }
+    
+    .tab.active {
+      border-bottom: 3px solid #64ffda;
+      font-weight: bold;
+      color: #64ffda;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .emotion-labels {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+      padding: 10px;
+      background: #1d2d4f;
+      border-radius: 8px;
+    }
+    
+    .emotion-label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      background: #0a192f;
+      border-radius: 4px;
+    }
+    
+    .color-box {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+    }
+    
+    .file-selected {
+      padding: 5px 10px;
+      background: #3a506b;
+      border-radius: 4px;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+    
+    .file-instructions {
+      text-align: center;
+      max-width: 80%;
+      margin: 0 auto;
+    }
+    
+    @media (max-width: 768px) {
+      .tabs {
+        flex-wrap: wrap;
+      }
+      
+      .tab {
+        flex: 1 1 auto;
+        text-align: center;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      h2 {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>AI-Powered Teacher Decision Support</h1>
+      <h2>Enhance classroom engagement through emotion analysis</h2>
+    </header>
+    
+    <div class="card">
+      <h3>Upload Classroom Emotional Data</h3>
+      <p>Upload your classroom emotion pie chart to get personalized recommendations</p>
+      
+      <div class="upload-section">
+        <div id="uploadBox" class="upload-box">
+          <div class="upload-icon">📊</div>
+          <p class="file-instructions">Drag & drop your emotion pie chart or click to browse</p>
+          <small>(Supported formats: PNG, JPG)</small>
+          <input type="file" id="fileInput" accept="image/*" style="display:none">
+          <div id="fileNameDisplay" class="file-selected" style="display:none;"></div>
+        </div>
+        <button id="analyzeBtn" class="btn">Analyze Classroom Emotions</button>
+      </div>
+    </div>
+    
+    <div id="feedbackContainer" class="feedback-container">
+      <div class="tabs">
+        <div class="tab active" data-tab="analysis">Emotional Analysis</div>
+        <div class="tab" data-tab="feedback">Teacher Feedback</div>
+        <div class="tab" data-tab="students">Student Progress</div>
+      </div>
+      
+      <div id="analysisTab" class="tab-content active">
+        <div class="card">
+          <h3>Classroom Emotion Distribution</h3>
+          <div class="chart-container">
+            <canvas id="emotionPieChart" class="pie-chart"></canvas>
+          </div>
+          
+          <div class="emotion-labels" id="emotionLabels"></div>
+          
+          <h3>Emotional Distress Level</h3>
+          <div class="distress-meter">
+            <div id="distressFill" class="distress-fill">
+              <span class="meter-label" id="distressLabel">0%</span>
+            </div>
+          </div>
+          
+          <div id="distressSummary"></div>
+        </div>
+      </div>
+      
+      <div id="feedbackTab" class="tab-content">
+        <div class="card">
+          <h3>Structured Feedback for Teacher</h3>
+          <div id="teacherFeedback" class="feedback-section">
+            <h4>Classroom Analysis: Emotional Distress Level (<span id="distressPercentage">0.00</span>%)</h4>
+            
+            <p>Based on the classroom analysis, I am providing structured feedback to help you improve student engagement and create a more comfortable learning environment.</p>
+            
+            <h4 id="adjustmentsTitle">Minor Adjustments for Improved Student Engagement (3-5% improvement)</h4>
+            <ul id="adjustmentsList">
+              <li><strong>Increase opportunities for student participation</strong>: Encourage students to share their thoughts and ideas through open-ended questions, think-pair-share activities, or group discussions.</li>
+              <li><strong>Vary instructional strategies</strong>: Incorporate different teaching methods, such as visual aids, hands-on activities, or technology integration, to cater to diverse learning styles and keep students engaged.</li>
+              <li><strong>Use positive reinforcement</strong>: Recognize and reward student achievements, efforts, and progress to foster a sense of accomplishment and motivation.</li>
+            </ul>
+            
+            <h4 id="reasonsTitle">Potential Reasons for Discomfort and How to Address Them (2-4% improvement)</h4>
+            <ul id="reasonsList">
+              <li><strong>Overwhelming pace or workload</strong>: Be mindful of the learning pace and adjust assignments accordingly. Provide regular check-ins and offer support to help students manage their work.</li>
+              <li><strong>Lack of student autonomy</strong>: Offer choices and involve students in decision-making processes to promote a sense of control and agency.</li>
+              <li><strong>Inadequate emotional support</strong>: Regularly check-in with students, validate their feelings, and provide guidance on coping strategies to create a supportive classroom environment.</li>
+            </ul>
+            
+            <h4 id="improvementTitle">Expected Improvement Percentage (<span id="improvementPercentage">5-7</span>% improvement)</h4>
+            <p id="improvementDescription">By implementing these minor adjustments and addressing potential reasons for discomfort, I expect the emotional distress level to decrease by 5-7%. This improvement will contribute to a more positive and engaging learning environment, leading to increased student motivation and academic success.</p>
+            
+            <p>Remember, these are just suggestions based on the classroom analysis. Your unique teaching style and context may require further adjustments or modifications.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div id="studentsTab" class="tab-content">
+        <div class="card">
+          <h3>Student Progress Dashboard</h3>
+          <p>Track individual student emotional progress and engagement metrics</p>
+          
+          <div class="student-progress" id="studentProgress">
+            <!-- Student progress cards will be populated here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <script>
+    // DOM elements
+    const uploadBox = document.getElementById('uploadBox');
+    const fileInput = document.getElementById('fileInput');
+    const fileNameDisplay = document.getElementById('fileNameDisplay');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const feedbackContainer = document.getElementById('feedbackContainer');
+    const distressFill = document.getElementById('distressFill');
+    const distressLabel = document.getElementById('distressLabel');
+    const distressPercentage = document.getElementById('distressPercentage');
+    const distressSummary = document.getElementById('distressSummary');
+    const tabs = document.querySelectorAll('.tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const emotionLabels = document.getElementById('emotionLabels');
+    const studentProgress = document.getElementById('studentProgress');
+    
+    // Chart colors with improved visibility
+    const chartColors = {
+      'neutral': '#64B5F6', // Light blue
+      'happy': '#81C784',   // Light green
+      'sad': '#9575CD',     // Purple
+      'angry': '#FF8A65',   // Orange-red
+      'fear': '#FFD54F',    // Yellow
+      'disgust': '#BA68C8'  // Pink-purple
+    };
+    
+    // Sample emotion data - in a real app, this would come from server
+    let mockEmotionDataSets = [
+      {
+        name: "Classroom A",
+        data: {
+          'neutral': 60,
+          'happy': 30,
+          'sad': 5,
+          'angry': 3,
+          'fear': 2,
+          'disgust': 0
+        }
+      },
+      {
+        name: "Classroom B",
+        data: {
+          'neutral': 40,
+          'happy': 35,
+          'sad': 10,
+          'angry': 8,
+          'fear': 5,
+          'disgust': 2
+        }
+      },
+      {
+        name: "Classroom C",
+        data: {
+          'neutral': 30,
+          'happy': 25,
+          'sad': 20,
+          'angry': 15,
+          'fear': 5,
+          'disgust': 5
+        }
+      }
+    ];
+    
+    // Sample student data
+    const studentData = [
+      {
+        name: "Emily Chen",
+        wellbeing: 82,
+        engagement: 75,
+        trends: "Improving"
+      },
+      {
+        name: "Michael Brown",
+        wellbeing: 65,
+        engagement: 70,
+        trends: "Stable"
+      },
+      {
+        name: "Sophia Martinez",
+        wellbeing: 90,
+        engagement: 88,
+        trends: "Consistent"
+      },
+      {
+        name: "Aiden Johnson",
+        wellbeing: 45,
+        engagement: 40,
+        trends: "Needs attention"
+      },
+      {
+        name: "Olivia Wilson",
+        wellbeing: 72,
+        engagement: 68,
+        trends: "Slowly improving"
+      },
+      {
+        name: "Ethan Davis",
+        wellbeing: 58,
+        engagement: 62,
+        trends: "Fluctuating"
+      }
+    ];
+    
+    // Set up event listeners
+    uploadBox.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', handleFileSelect);
+    analyzeBtn.addEventListener('click', analyzeEmotions);
+    
+    // Tab switching functionality
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const targetTab = tab.getAttribute('data-tab');
+        
+        // Remove active class from all tabs and content
+        tabs.forEach(t => t.classList.remove('active'));
+        tabContents.forEach(content => content.classList.remove('active'));
+        
+        // Add active class to selected tab and content
+        tab.classList.add('active');
+        document.getElementById(`${targetTab}Tab`).classList.add('active');
+      });
+    });
+    
+    // Handle file selection
+    function handleFileSelect(e) {
+      const file = e.target.files[0];
+      if (file) {
+        // Display file name
+        fileNameDisplay.textContent = `Selected: ${file.name}`;
+        fileNameDisplay.style.display = 'block';
+        
+        // Show preview if it's an image
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          uploadBox.innerHTML = `
+            <img src="${event.target.result}" style="max-height: 160px; max-width: 100%;" />
+            <div id="fileNameDisplay" class="file-selected">Selected: ${file.name}</div>
+          `;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+    
+    // Analyze emotions (simulated)
+    function analyzeEmotions() {
+      // Check if file is selected - in this demo, we'll proceed anyway
+      if (!fileInput.files[0] && !uploadBox.querySelector('img')) {
+        alert("Please select an image file first");
+        return;
+      }
+      
+      // Show feedback container
+      feedbackContainer.style.display = 'block';
+      
+      // Scroll to feedback section
+      feedbackContainer.scrollIntoView({ behavior: 'smooth' });
+      
+      // Pick a random dataset for demo purposes
+      const selectedDataset = mockEmotionDataSets[Math.floor(Math.random() * mockEmotionDataSets.length)];
+      const emotionData = selectedDataset.data;
+      
+      // Calculate distress level - sum of sad, angry, fear, disgust
+      const distressEmotions = ['sad', 'angry', 'fear', 'disgust'];
+      const distressValue = distressEmotions.reduce((sum, emotion) => sum + (emotionData[emotion] || 0), 0);
+      
+      // Update UI with results (delayed slightly for visual effect)
+      setTimeout(() => {
+        updateDistressMeter(distressValue);
+        renderEmotionChart(emotionData);
+        updateFeedback(distressValue);
+        populateStudentData();
+      }, 300);
+    }
+    
+    // Update distress meter
+    function updateDistressMeter(distressValue) {
+      // Set width and label of distress meter
+      distressFill.style.width = `${distressValue}%`;
+      distressLabel.textContent = `${distressValue}% Distress`;
+      distressPercentage.textContent = `${distressValue.toFixed(2)}`;
+      
+      // Set color and summary based on distress level
+      if (distressValue < 10) {
+        distressFill.className = 'distress-fill low-distress';
+        distressSummary.innerHTML = '<p>✅ Great job! The class environment is well-balanced with minimal distress. Keep up the excellent work!</p>';
+      } else if (distressValue < 20) {
+        distressFill.className = 'distress-fill medium-distress';
+        distressSummary.innerHTML = '<p>⚠️ Moderate emotional distress detected. See the feedback tab for suggested minor adjustments.</p>';
+      } else {
+        distressFill.className = 'distress-fill high-distress';
+        distressSummary.innerHTML = '<p>⚠️ High emotional distress detected. See the feedback tab for recommended interventions.</p>';
+      }
+    }
+    
+    // Render emotion pie chart
+    function renderEmotionChart(emotionData) {
+      const ctx = document.getElementById('emotionPieChart').getContext('2d');
+      
+      // Filter out zero values
+      const filteredEmotions = {};
+      Object.entries(emotionData).forEach(([emotion, value]) => {
+        if (value > 0) filteredEmotions[emotion] = value;
+      });
+      
+      // Clear previous chart if exists
+      if (window.emotionChart instanceof Chart) {
+        window.emotionChart.destroy();
+      }
+      
+      // Create new chart
+      window.emotionChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: Object.keys(filteredEmotions),
+          datasets: [{
+            data: Object.values(filteredEmotions),
+            backgroundColor: Object.keys(filteredEmotions).map(emotion => chartColors[emotion] || '#999'),
+            borderWidth: 1,
+            borderColor: '#0a192f'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'bottom',
+              labels: {
+                color: '#e6f1ff',
+                padding: 20,
+                font: {
+                  size: 12
+                }
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  const label = context.label || '';
+                  const value = context.raw || 0;
+                  return `${label}: ${value}%`;
+                }
+              }
+            }
+          }
+        }
+      });
+      
+      // Create emotion color labels for easy reference
+      emotionLabels.innerHTML = '';
+      Object.entries(chartColors).forEach(([emotion, color]) => {
+        const labelDiv = document.createElement('div');
+        labelDiv.className = 'emotion-label';
+        
+        const colorBox = document.createElement('div');
+        colorBox.className = 'color-box';
+        colorBox.style.backgroundColor = color;
+        
+        const labelText = document.createElement('span');
+        labelText.textContent = emotion.charAt(0).toUpperCase() + emotion.slice(1);
+        
+        labelDiv.appendChild(colorBox);
+        labelDiv.appendChild(labelText);
+        emotionLabels.appendChild(labelDiv);
+      });
+    }
+    
+    // Update feedback based on distress level
+    function updateFeedback(distressValue) {
+      const adjustmentsTitle = document.getElementById('adjustmentsTitle');
+      const adjustmentsList = document.getElementById('adjustmentsList');
+      const reasonsTitle = document.getElementById('reasonsTitle');
+      const reasonsList = document.getElementById('reasonsList');
+      const improvementTitle = document.getElementById('improvementTitle');
+      const improvementPercentage = document.getElementById('improvementPercentage');
+      const improvementDescription = document.getElementById('improvementDescription');
+      
+      if (distressValue >= 20) {
+        // High distress feedback
+        adjustmentsTitle.textContent = 'Major Adjustments for Improved Student Engagement (6-9% improvement)';
+        adjustmentsList.innerHTML = `
+          <li><strong>Implement structured emotional check-ins</strong>: Begin each class with a brief emotional check-in activity to help students identify and express their feelings.</li>
+          <li><strong>Create safe discussion spaces</strong>: Establish dedicated time for open discussions where students can share concerns without judgment.</li>
+          <li><strong>Adopt trauma-informed teaching practices</strong>: Recognize signs of stress and provide appropriate support and accommodations.</li>
+        `;
+        
+        reasonsTitle.textContent = 'Potential Causes of High Distress and Intervention Strategies (5-7% improvement)';
+        reasonsList.innerHTML = `
+          <li><strong>Classroom climate issues</strong>: Address potential bullying or negative peer interactions and establish clear expectations for respectful communication.</li>
+          <li><strong>Academic pressure</strong>: Review assessment schedule to prevent overload and provide additional support resources.</li>
+          <li><strong>External factors</strong>: Connect with school counselors to provide additional support for students experiencing difficulties outside the classroom.</li>
+        `;
+        
+        improvementPercentage.textContent = '11-16';
+        improvementDescription.textContent = 'By implementing these major adjustments and targeted interventions, I expect the emotional distress level to decrease significantly by 11-16%. This substantial improvement will transform the classroom environment, leading to better academic outcomes and student wellbeing.';
+      } else if (distressValue >= 10) {
+        // Moderate distress - default text is already set in HTML
+      } else {
+        // Low distress
+        document.getElementById('teacherFeedback').innerHTML = '<p>✅ Great job! The class environment is well-balanced with minimal distress. Keep up the excellent work!</p><p>Your current teaching approach is creating a positive emotional environment for students. Continue with your effective strategies and consider sharing your practices with colleagues.</p>';
+      }
+    }
+    
+    // Populate student data
+    function populateStudentData() {
+      studentProgress.innerHTML = '';
+      
+      studentData.forEach(student => {
+        const card = document.createElement('div');
+        card.className = 'student-card';
+        
+        card.innerHTML = `
+          <h4>${student.name}</h4>
+          <p>Emotional Wellbeing</p>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: ${student.wellbeing}%"></div>
+          </div>
+          <small>${student.wellbeing}% positive emotions</small>
+          
+          <p>Engagement</p>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: ${student.engagement}%"></div>
+          </div>
+          <small>${student.engagement}% engaged</small>
+          
+          <p style="margin-top: 10px">Trend: ${student.trends}</p>
+        `;
+        
+        studentProgress.appendChild(card);
+      });
+    }
+  </script>
+</body>
+</html>

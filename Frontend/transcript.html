@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hearlink - AI Study Materials</title>
+    <link rel="stylesheet" href="transcript.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-headphones-alt logo-icon"></i>
+                <h1>Hearlink</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-book"></i> Library</a></li>
+                    <li><a href="#"><i class="fas fa-graduation-cap"></i> Learn</a></li>
+                    <li><a href="#"><i class="fas fa-user"></i> Account</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <h2>Transform Videos into Powerful Learning Materials</h2>
+            <p>Upload any lecture or video and let our AI generate transcripts, summaries, flashcards, notes, and interactive quizzes in multiple languages to accelerate your learning.</p>
+        </section>
+
+        <section class="input-section">
+            <h3>Step 1: Upload Your Learning Content</h3>
+            <div class="video-input">
+                <div class="url-input">
+                    <input type="text" id="video-url" placeholder="Paste YouTube URL or video link...">
+                    <button id="load-url">Load Video</button>
+                </div>
+
+                <div class="or-divider">
+                    <span>OR</span>
+                </div>
+
+                <div class="file-upload">
+                    <input type="file" id="video-file" accept="video/*">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Drag & drop your video file or click to browse</p>
+                </div>
+
+                <div class="video-preview" id="video-preview">
+                    <video id="video-player" controls></video>
+                </div>
+
+                <div class="language-selection">
+                    <div>
+                        <label for="detected-language">Detected Language:</label>
+                        <select id="detected-language" disabled>
+                            <option value="">Auto-detect in progress...</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="output-language">Output Language:</label>
+                        <select id="output-language">
+                            <option value="en">English</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="it">Italian</option>
+                            <option value="zh">Chinese</option>
+                            <option value="ja">Japanese</option>
+                            <option value="ko">Korean</option>
+                            <option value="ru">Russian</option>
+                            <option value="ar">Arabic</option>
+                            <option value="hi">Hindi</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button id="process-video" class="secondary">
+                    <i class="fas fa-magic"></i> Generate Learning Materials
+                </button>
+            </div>
+        </section>
+
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p>Processing your video... This may take a few moments</p>
+        </div>
+
+        <div class="progress-bar" id="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+
+        <div class="results-container" id="results-container">
+            <div class="tab-container">
+                <div class="tab active" data-tab="transcript">Transcript</div>
+                <div class="tab" data-tab="summary">Summary</div>
+                <div class="tab" data-tab="flashcards">Flashcards</div>
+                <div class="tab" data-tab="notes">Notes</div>
+                <div class="tab" data-tab="quiz">Quiz</div>
+                <div class="tab" data-tab="exercises">Exercises</div>
+            </div>
+
+            <div class="tab-content active" id="transcript">
+                <div class="result-card">
+                    <h4>Video Transcript</h4>
+                    <div class="transcript-content" id="transcript-content">
+                        <!-- Transcript content will be inserted here -->
+                    </div>
+                    <div class="action-options">
+                        <button id="generate-transcript" class="primary">
+                            <i class="fas fa-sync-alt"></i> Generate Transcript
+                        </button>
+                        <div class="download-options">
+                            <button class="secondary">
+                                <i class="fas fa-download"></i> Download as TXT
+                            </button>
+                            <button class="secondary">
+                                <i class="fas fa-closed-captioning"></i> Download as SRT
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="summary">
+                <div class="result-card">
+                    <h4>Video Summary</h4>
+                    <div class="summary-content" id="summary-content">
+                        <!-- Summary content will be inserted here -->
+                    </div>
+                    <div class="action-options">
+                        <button id="generate-summary" class="primary">
+                            <i class="fas fa-sync-alt"></i> Generate Summary
+                        </button>
+                        <div class="download-options">
+                            <button class="secondary">
+                                <i class="fas fa-download"></i> Download Summary
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="flashcards">
+                <div class="result-card">
+                    <h4>Flashcards</h4>
+                    <div class="action-options">
+                        <button id="generate-flashcards" class="primary">
+                            <i class="fas fa-sync-alt"></i> Generate Flashcards
+                        </button>
+                    </div>
+                    <div class="flashcard-container">
+                        <div class="flashcard" id="current-flashcard">
+                            <div class="flashcard-front">
+                                <div id="flashcard-question">What is the main topic of this video?</div>
+                            </div>
+                            <div class="flashcard-back">
+                                <div id="flashcard-answer">The main topic of this video is the importance of effective study techniques and how they can improve learning outcomes.</div>
+                            </div>
+                        </div>
+                        <div class="flashcard-controls">
+                            <button id="prev-card" class="secondary">
+                                <i class="fas fa-chevron-left"></i> Previous
+                            </button>
+                            <button id="flip-card">
+                                <i class="fas fa-sync-alt"></i> Flip Card
+                            </button>
+                            <button id="next-card" class="secondary">
+                                Next <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <p id="card-counter" style="text-align: center; margin-top: 10px;">Card 1 of 10</p>
+                    </div>
+                    <div class="download-options">
+                        <button class="secondary">
+                            <i class="fas fa-download"></i> Download Flashcards
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="notes">
+                <div class="result-card">
+                    <h4>Study Notes</h4>
+                    <div class="notes-content" id="notes-content">
+                        <!-- Notes content will be inserted here -->
+                    </div>
+                    <div class="action-options">
+                        <button id="generate-notes" class="primary">
+                            <i class="fas fa-sync-alt"></i> Generate Notes
+                        </button>
+                        <div class="download-options">
+                            <button class="secondary">
+                                <i class="fas fa-download"></i> Download as PDF
+                            </button>
+                            <button class="secondary">
+                                <i class="fas fa-file-word"></i> Download as DOCX
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="quiz">
+                <div class="result-card">
+                    <h4>Interactive Quiz</h4>
+                    <div class="action-options">
+                        <button id="generate-quiz" class="primary">
+                            <i class="fas fa-sync-alt"></i> Generate Quiz
+                        </button>
+                    </div>
+                    <div class="quiz-container" id="quiz-container">
+                        <!-- Quiz content will be inserted here -->
+                    </div>
+                    <div class="quiz-controls">
+                        <button id="prev-question" class="secondary">
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </button>
+                        <button id="check-answer">
+                            <i class="fas fa-check-circle"></i> Check Answer
+                        </button>
+                        <button id="next-question" class="secondary">
+                            Next <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="quiz-feedback" id="quiz-feedback"></div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="exercises">
+                <div class="result-card">
+                    <h4>Learning Exercises</h4>
+                    <div class="action-options">
+                        <button id="generate-exercises" class="primary">
+                            <i class="fas fa-sync-alt"></i> Generate Exercises
+                        </button>
+                    </div>
+                    <div class="exercises-container" id="exercises-container">
+                        <div class="exercise-section" id="fill-blanks-section">
+                            <h5>Fill in the Blanks</h5>
+                            <div id="fill-blanks-content">
+                                <!-- Fill in the blanks content will be inserted here -->
+                            </div>
+                        </div>
+                        
+                        <div class="exercise-section" id="short-answer-section">
+                            <h5>Short Answer Questions</h5>
+                            <div id="short-answer-content">
+                                <!-- Short answer content will be inserted here -->
+                            </div>
+                        </div>
+                        
+                        <div class="exercise-section" id="long-answer-section">
+                            <h5>Long Answer Questions</h5>
+                            <div id="long-answer-content">
+                                <!-- Long answer content will be inserted here -->
+                            </div>
+                        </div>
+                        
+                        <div class="exercise-section" id="answers-section">
+                            <h5>Answers</h5>
+                            <button id="toggle-answers" class="secondary">
+                                <i class="fas fa-eye"></i> Show/Hide Answers
+                            </button>
+                            <div id="exercises-answers" class="hidden">
+                                <!-- Answers will be inserted here -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="download-options">
+                        <button class="secondary">
+                            <i class="fas fa-download"></i> Download Exercises
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Hearlink - Transforming video content into powerful learning materials</p>
+        </footer>
+    </div>
+
+    <script src="transcript.js"></script>
+</body>
+</html>

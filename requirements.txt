@@ -13,3 +13,12 @@ deep_translator
 moviepy
 ollama
 langdetect
+mediapipe
+pytube
+yt_dlp
+youtube_transcript_api
+google-generativeai
+python-dotenv
+pathlib
+PyPDF2
+python-docx
