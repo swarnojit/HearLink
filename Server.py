@@ -58,7 +58,7 @@ def read_transcript():
 
 # Generate quizzes using AI
 def generate_quiz(text):
-    """Generate a structured quiz."""
+    """Generate a structured quiz from the input text."""
     prompt = """
     You are an educational assistant. Create a multiple-choice quiz from the text.
     Provide exactly 5 questions, each with 4 options (A, B, C, D), and mark the correct answer separately.
@@ -83,9 +83,53 @@ def generate_quiz(text):
     Text:
     """ + text
 
+    # Generate the quiz using the model
     model = genai.GenerativeModel("gemini-2.0-flash")
     response = model.generate_content(prompt)
-    return response.text
+
+    quiz_text = response.text.strip()
+
+    # Parsing the generated quiz text
+    quiz_questions = []
+    correct_answers = {}
+
+    # Extracting questions and answers
+    try:
+        # Split the questions and correct answers part
+        questions_part, answers_part = quiz_text.split("**Correct Answers:**")
+
+        # Process the questions part
+        questions_lines = questions_part.strip().split("\n\n")
+        for line in questions_lines:
+            lines = line.strip().split("\n")
+            question = lines[0].strip().replace("?", "")  # Remove the question mark
+            options = [option.strip() for option in lines[1:]]  # Options A, B, C, D
+
+            quiz_questions.append({
+                "question": question,
+                "options": options,
+            })
+
+        # Process the correct answers part
+        answers_lines = answers_part.strip().split("\n")
+        for i, line in enumerate(answers_lines):
+            # The format should be something like "1. C"
+            question_number, answer = line.strip().split(".")
+            correct_answers[int(question_number)] = answer.strip()
+
+        # Return the structured quiz format
+        structured_quiz = []
+        for i, question_data in enumerate(quiz_questions):
+            structured_quiz.append({
+                "question": question_data["question"],
+                "options": question_data["options"],
+                "answer": correct_answers.get(i + 1)  # Adding correct answer
+            })
+
+        return structured_quiz
+
+    except Exception as e:
+        return {"error": f"Error processing quiz: {str(e)}"}
 
 
 # Generate structured exercises using AI
@@ -156,11 +200,34 @@ def detect_language(text):
 
 def summarize_text(text, lang):
     """Summarizes the text and extracts key points in bullet format."""
-    prompt = f"""  - Do not include general or repetitive sentences.
-    Extract the most important points from the following text and format them into clear bullet points.
-    The response should be in {lang}.
-    - Use a structured format with bullet points. Keep it concise and include only essential information.
-    """
+
+    # Map language codes to language names for clarity in the prompt
+    language_names = {
+        "en": "English",
+        "hi": "Hindi",
+        "bn": "Bengali",
+        "ta": "Tamil",
+        "te": "Telugu",
+        "mr": "Marathi",
+        "gu": "Gujarati",
+        "kn": "Kannada",
+        "ml": "Malayalam",
+        "pa": "Punjabi",
+        "ur": "Urdu"
+    }
+
+    lang_name = language_names.get(lang, lang)
+
+    prompt = f"""You are a multilingual assistant.
+
+IMPORTANT: Your response MUST be in {lang_name} language ({lang}).
+- DO NOT respond in English. Respond ONLY in {lang_name}.
+- Extract only the most important points from the following text.
+- Use clear and concise bullet points.
+- Format your response in a structured, easy-to-read format.
+
+Text to summarize:
+"""
 
     response = ollama.chat(model="llama3", messages=[
         {"role": "system", "content": prompt},
@@ -171,7 +238,6 @@ def summarize_text(text, lang):
     summary = str(response["message"]["content"])
 
     return summary
-
 
 def generate_flashcards(summary_text):
     """Formats the summary into structured flashcards."""
@@ -207,6 +273,10 @@ def health():
 
 @app.route('/api/transcribe', methods=['POST'])
 def transcribe_video():
+    print("Received request...")
+    print("Files:", request.files)
+    print("Form data:", request.form)
+
     # Check if the post request has the file part
     if 'video' not in request.files:
         return jsonify({"error": "No video file provided"}), 400
@@ -254,7 +324,8 @@ def transcribe_video():
         return jsonify({
             "original_transcript": transcript,
             "translated_transcript": translated_text,
-            "target_language": target_lang
+            "target_language": target_lang,
+
         })
 
     except Exception as e:
@@ -321,9 +392,10 @@ def generate_flashcards_route():
         # Save Flashcards
         with open("flashcards.txt", "w", encoding="utf-8") as file:
             file.write(flashcards)
+        flashcard_list = [line.strip() for line in flashcards.strip().split("\n") if line.strip()]
 
         return jsonify({
-            "flashcards": flashcards,
+            "flashcards": flashcard_list,
             "language": detected_lang,
             "source_file": transcript_file
         })
@@ -343,6 +415,48 @@ def quiz_route():
     return quiz, 200, {'Content-Type': 'application/json'}
 
 
+import re
+
+
+def parse_exercise_response(text):
+    try:
+        # Split main sections
+        fill_blanks = re.findall(r'\*\*Fill in the Blanks\*\*\s*(.*?)\*\*Short Answer Questions\*\*', text, re.S)[
+            0].strip()
+        short_answers = re.findall(r'\*\*Short Answer Questions\*\*\s*(.*?)\*\*Long Answer Questions\*\*', text, re.S)[
+            0].strip()
+        long_answers = re.findall(r'\*\*Long Answer Questions\*\*\s*(.*?)\*\*Answers:\*\*', text, re.S)[0].strip()
+        answers_section = re.findall(r'\*\*Answers:\*\*\s*(.*)', text, re.S)[0].strip()
+
+        # Extract answers separately
+        fb_answers = \
+        re.findall(r'\*\*Fill in the Blanks\*\*\s*(.*?)\*\*Short Answer Questions\*\*', answers_section, re.S)[
+            0].strip()
+        sa_answers = \
+        re.findall(r'\*\*Short Answer Questions\*\*\s*(.*?)\*\*Long Answer Questions\*\*', answers_section, re.S)[
+            0].strip()
+        la_answers = re.findall(r'\*\*Long Answer Questions\*\*\s*(.*)', answers_section, re.S)[0].strip()
+
+        # Extract numbered items
+        def extract_items(block):
+            return [re.sub(r'^\d+\.\s*', '', line.strip()) for line in block.strip().split('\n') if line.strip()]
+
+        return {
+            "fillBlanks": extract_items(fill_blanks),
+            "shortAnswer": extract_items(short_answers),
+            "longAnswer": extract_items(long_answers),
+            "answers": {
+                "fillBlanks": extract_items(fb_answers),
+                "shortAnswer": extract_items(sa_answers),
+                "longAnswer": extract_items(la_answers)
+            }
+        }
+
+    except Exception as e:
+        print("Parsing error:", str(e))
+        return None
+
+
 @app.route('/api/exercise', methods=['GET'])
 def exercise_route():
     transcript_text = read_transcript()
@@ -350,8 +464,17 @@ def exercise_route():
     if not transcript_text:
         return jsonify({"error": "No translated transcript file found"}), 404
 
-    exercises = generate_exercises(transcript_text)
-    return exercises, 200, {'Content-Type': 'application/json'}
+    try:
+        raw_text = generate_exercises(transcript_text)
+        structured = parse_exercise_response(raw_text)
+
+        if structured:
+            return jsonify(structured)
+        else:
+            return jsonify({"error": "Failed to parse exercise response"}), 500
+    except Exception as e:
+        print("Exercise route error:", str(e))
+        return jsonify({"error": "Internal server error"}), 500
 
 
 transcription_store = {}
@@ -405,7 +528,7 @@ def extract_transcript(youtube_video_url):
         return None, str(e)
 
 
-@app.route('/api/transcribe-link', methods=['POST'])
+@app.route('/api/transcribelink', methods=['POST'])
 def transcribe_link():
     # Get data from form
     youtube_link = request.form.get('youtube_link')
