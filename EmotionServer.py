@@ -9,9 +9,9 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 import os
 import google.generativeai as genai
-
+from flask_cors import CORS
 app = Flask(__name__)
-
+CORS(app)
 # Create directories if they don't exist
 UPLOAD_FOLDER = 'uploads'
 RESULTS_FOLDER = 'results'
@@ -23,7 +23,12 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
 
-@app.route('/analyze-emotion', methods=['POST'])
+@app.route('/api/test', methods=['GET'])
+def test():
+    return jsonify({'result': 'ok'})
+
+
+@app.route('/api/analyze-emotion', methods=['POST'])
 def analyze_emotion():
     if 'video' not in request.files:
         return jsonify({'error': 'No video file provided'}), 400
@@ -59,16 +64,14 @@ def analyze_emotion():
             os.remove(temp_video_path)
 
 
-@app.route('/download-chart', methods=['GET'])
+@app.route('/api/download-chart', methods=['GET'])
 def download_chart():
     return send_file(os.path.join(RESULTS_FOLDER, "chart.png"), as_attachment=True)
 
 
-@app.route('/download-report', methods=['GET'])
+@app.route('/api/download-report', methods=['GET'])
 def download_report():
     return send_file(os.path.join(RESULTS_FOLDER, "emotion_report.txt"), as_attachment=True)
-
-
 
 
 def process_video(video_path):
@@ -356,4 +359,4 @@ def upload_chart():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5006)
