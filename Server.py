@@ -246,13 +246,13 @@ def generate_flashcards(summary_text):
     # Ensure summary_text is a string
     summary_text = str(summary_text)
 
-    points = summary_text.split("\n")
+    # Split by newline and filter out empty lines
+    points = [point.strip() for point in summary_text.split("\n") if point.strip()]
 
     for idx, point in enumerate(points, start=1):
-        clean_point = point.strip()
-        if clean_point:
-            flashcards.append(f"📌 **Key Point {idx}:** {clean_point}")
+        flashcards.append(f"📌 **Key Point {idx}:** {point}")
 
+    # Join the flashcards into a string and return
     return "\n".join(flashcards)
 
 
