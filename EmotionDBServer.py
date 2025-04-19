@@ -172,7 +172,8 @@ def get_all_students():
                     'distress_percentage': analysis.distress_percentage,
                     'alert_triggered': analysis.alert_triggered,
                     'chart_image_base64': chart_base64,  # Base64 encoded image
-                    'timestamp': analysis.timestamp.isoformat() if analysis.timestamp else None
+                    'timestamp': analysis.timestamp.isoformat() if analysis.timestamp else None,
+                    'pie_chart_analysis': analysis.pie_chart_analysis
                 }
 
             students_data.append(student_info)
@@ -564,6 +565,5 @@ if __name__ == '__main__':
     # # Create all database tables before running the app
     # with app.app_context():
     #     db.create_all()
-
 
     app.run(debug=True, host='0.0.0.0', port=5006)
