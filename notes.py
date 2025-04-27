@@ -1,14 +1,17 @@
-import streamlit as st
-from dotenv import load_dotenv
-import google.generativeai as genai
 import os
 import base64
 import PyPDF2
 import docx
+import streamlit as st
+from dotenv import load_dotenv
+from openai import OpenAI  # Import E2E OpenAI client
 
 # Load environment variables
 load_dotenv()  
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+client = OpenAI(
+    base_url="https://infer.e2enetworks.net/project/p-5454/genai/llama_3_3_70b_instruct_fp8/v1",
+    api_key=os.getenv("E2E_API_KEY")  # Use your API Key here
+)
 
 def extract_text_from_pdf(file):
     """Extract text from a PDF file."""
@@ -22,11 +25,33 @@ def extract_text_from_docx(file):
     text = "\n".join([para.text for para in doc.paragraphs])
     return text
 
-def translate_notes(notes_text, target_language):
-    """Use Google Gemini AI to translate notes into the target language."""
-    model = genai.GenerativeModel("gemini-2.0-flash")
-    response = model.generate_content(f"Translate the following text into {target_language}:\n\n{notes_text}")
-    return response.text if response else notes_text
+def translate_notes_with_llama(notes_text, target_language):
+    """Translate notes using LLaMA model."""
+    prompt = f"Translate the following text into {target_language}:\n\n{notes_text}"
+
+    # Call the OpenAI API (E2E) for translation using LLaMA
+    completion = client.chat.completions.create(
+        model='llama_3_3_70b_instruct_fp8',
+        messages=[{"role":"user","content":prompt}],
+        temperature=0.5,
+        max_tokens=1024,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=1,
+        stream=True
+    )
+
+    translated_notes = ""
+    
+    # Iterate over the chunks returned by the API and extract content correctly
+    for chunk in completion:
+        if hasattr(chunk, 'choices') and chunk.choices:  # Check if chunk has 'choices'
+            # Access the content directly from the Choice object
+            content = chunk.choices[0].delta.content if chunk.choices[0].delta else ""
+            if content:
+                translated_notes += content
+    
+    return translated_notes
 
 def save_text_to_file(text, filename):
     """Save text to a file."""
@@ -66,7 +91,7 @@ if uploaded_file:
 
         if st.button("Translate Notes"):
             st.markdown(f"### Translating Notes to {target_language.upper()}...")
-            translated_notes = translate_notes(notes_text, target_language)
+            translated_notes = translate_notes_with_llama(notes_text, target_language)
 
             # Save translated notes
             file_name = "translated_notes.txt"
