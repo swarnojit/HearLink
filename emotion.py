@@ -46,32 +46,35 @@ def analyze_emotion(face_img):
     return result[0]['dominant_emotion']
 
 # Generate individual reports only for registered users
+# Generate individual reports only for registered users
 def generate_report():
-    with open("emotion.txt", "w", encoding="utf-8") as f:
-        for person, counts in emotion_counts.items():
-            frames = total_frames[person]
-            if frames == 0:
-                continue
-            distress_frames = sum(counts[e] for e in alert_emotions)
-            distress_percent = (distress_frames / frames) * 100
+    for person, counts in emotion_counts.items():
+        frames = total_frames[person]
+        if frames == 0:
+            continue
+        distress_frames = sum(counts[e] for e in alert_emotions)
+        distress_percent = (distress_frames / frames) * 100
 
+        # Save individual report
+        with open(f"{person}_emotion.txt", "w", encoding="utf-8") as f:
             f.write(f"\n👤 {person}\n")
             f.write(f"• Total Frames: {frames}\n")
             f.write(f"• Emotions: {dict(counts)}\n")
-            f.write(f"• Distress Level: {distress_percent:.2f}%\n")
+            f.write(f"• Distress Level: {distress_percent:.3f}%\n")
 
             if distress_percent >= distress_threshold:
                 f.write(f"🚨 ALERT: {person} is in distress!\n")
 
-            # Pie chart
-            labels = list(counts.keys())
-            sizes = [counts[e] for e in labels]
-            if sizes:
-                plt.figure(figsize=(4, 4))
-                plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
-                plt.title(f"{person}'s Emotion Distribution")
-                plt.savefig(f"{person}_pie_chart.png")
-                plt.close()
+        # Save corresponding pie chart
+        labels = list(counts.keys())
+        sizes = [counts[e] for e in labels]
+        if sizes:
+            plt.figure(figsize=(4, 4))
+            plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
+            plt.title(f"{person}'s Emotion Distribution")
+            plt.savefig(f"{person}_pie_chart.png")
+            plt.close()
+
 
 # Main loop
 start_time = time.time()
