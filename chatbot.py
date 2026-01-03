@@ -4,7 +4,7 @@ import streamlit as st
 import google.generativeai as genai
 
 # === Gemini API Key and Model ===
-genai.configure(api_key="AIzaSyA2FfO_DWFxfYAgHfS8lKaCULZjADDHU-U")
+genai.configure(api_key="")
 gemini_model = genai.GenerativeModel("gemini-2.5-flash")
 
 # === Static PDF Path ===
@@ -76,3 +76,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
